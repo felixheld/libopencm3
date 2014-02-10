@@ -1,10 +1,10 @@
-/** @addtogroup pio_defines
+/** @addtogroup gpio_defines
  *
- * @brief <b>Constants and Types for the SAM3A/U/X Parallel I/O Controller</b>
+ * @brief <b>Access functions for the SAM3A/U/X Parallel I/O Controller</b>
  * @ingroup SAM3_defines
- * @version 1.0.0
- * @date 9 February 2014
  * LGPL License Terms @ref lgpl_license
+ * @author @htmlonly &copy; @endhtmlonly 2013
+ * Gareth McMullin <gareth@blacksphere.co.nz>
  * @author @htmlonly &copy; @endhtmlonly 2014
  * Felix Held <felix-libopencm3@felixheld.de>
  *
@@ -13,6 +13,7 @@
 /*
  * This file is part of the libopencm3 project.
  *
+ * Copyright (C) 2013 Gareth McMullin <gareth@blacksphere.co.nz>
  * COpyright (C) 2014 Felix Held <felix-libopencm3@felixheld.de>
  *
  * This library is free software: you can redistribute it and/or modify
@@ -29,34 +30,40 @@
  * along with this library.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/* THIS FILE SHOULD NOT BE INCLUDED DIRECTLY, BUT ONLY VIA PIO.H
-The order of header inclusion is important. pio.h includes the device
+/* THIS FILE SHOULD NOT BE INCLUDED DIRECTLY, BUT ONLY VIA GPIO.H
+The order of header inclusion is important. gpio.h includes the device
 specific memorymap.h header before including this header file.*/
 
 /** @cond */
-#if defined(LIBOPENCM3_PIO_H)
+#if defined(LIBOPENCM3_GPIO_H)
 /** @endcond */
 
-#ifndef LIBOPENCM3_PIO_COMMON_3A3U3X_H
-#define LIBOPENCM3_PIO_COMMON_3A3U3X_H
+#ifndef LIBOPENCM3_GPIO_COMMON_3A3U3X_H
+#define LIBOPENCM3_GPIO_COMMON_3A3U3X_H
 
 /**@{*/
 
-#include <libopencm3/sam/common/pio_common_all.h>
+#include <libopencm3/sam/common/gpio_common_all.h>
 
-/* --- PIO registers ----------------------------------------------------- */
 
-/* Peripheral AB Select Register */
-#define PIO_ABSR(port)			MMIO32((port) + 0x0070)
+/* flags may be or'd together, but only contain one of
+ * GPOUTPUT, PERIPHA and PERIPHB */
+enum gpio_flags {
+	GPIO_FLAG_GPINPUT = 0,
+	GPIO_FLAG_GPOUTPUT = 1,
+	GPIO_FLAG_PERIPHA = 2,
+	GPIO_FLAG_PERIPHB = 3,
+	GPIO_FLAG_OPEN_DRAIN = (1 << 3),
+	GPIO_FLAG_PULL_UP = (1 << 4),
+};
 
-/* System Clock Glitch Input Filter Select Register */
-#define PIO_SCIFSR(port)		MMIO32((port) + 0x0080)
 
-/* Debouncing Input Filter Select Register */
-#define PIO_DIFSR(port)			MMIO32((port) + 0x0084)
+BEGIN_DECLS
 
-/* Glitch or Debouncing Input Filter Clock Selection Status Register */
-#define PIO_IFDGSR(port)		MMIO32((port) + 0x0088)
+void gpio_init(uint32_t gpioport, uint32_t pins, enum gpio_flags flags);
+
+
+END_DECLS
 
 
 /**@}*/
@@ -64,6 +71,6 @@ specific memorymap.h header before including this header file.*/
 
 /** @cond */
 #else
-#warning "pio_common_3a3u3x.h should not be included explicitly, only via pio.h"
+#warning "gpio_common_3a3u3x.h should not be included explicitly, only via gpio.h"
 #endif
 /** @endcond */
