@@ -1,4 +1,12 @@
-/* This provides unification of code over SAM subfamilies */
+/** @defgroup gpio_defines GPIO access functions
+ *
+ * @brief <b>Access functions for the SAM3A Parallel I/O Controller</b>
+ * @ingroup SAM3A_defines
+ * LGPL License Terms @ref lgpl_license
+ * @author @htmlonly &copy; @endhtmlonly 2014
+ * Felix Held <felix-libopencm3@felixheld.de>
+ *
+ */
 
 /*
  * This file is part of the libopencm3 project.
@@ -19,16 +27,16 @@
  * along with this library.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#if defined(SAM3A)
-#       include <libopencm3/sam/3a/gpio.h>
-#elif defined(SAM3N)
-#       include <libopencm3/sam/3n/gpio.h>
-#elif defined(SAM3S)
-#       include <libopencm3/sam/3s/gpio.h>
-#elif defined(SAM3U)
-#       include <libopencm3/sam/3u/gpio.h>
-#elif defined(SAM3X)
-#       include <libopencm3/sam/3x/gpio.h>
-#else
-#       error "sam family not defined."
+/**@{*/
+
+#ifndef LIBOPENCM3_GPIO_H
+#define LIBOPENCM3_GPIO_H
+
+#include <libopencm3/sam/memorymap.h>
+#include <libopencm3/sam/pio.h>
+#include <libopencm3/sam/common/gpio_common_3a3u3x.h>
+
+
 #endif
+/**@}*/
+
